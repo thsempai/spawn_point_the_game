@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    [Range(0, 100)]
-    public int monstersNumber = 10;
+    [HideInInspector]
+    public int monstersNumber = 0;
 
     public GameManager gameManager;
 
@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake() {
         gameManager = FindObjectOfType<GameManager>();
+        monstersNumber = gameManager.difficulty;
 
         if(playerPrefab == null) {
             Debug.LogError("No player object set in this level.", gameObject);
