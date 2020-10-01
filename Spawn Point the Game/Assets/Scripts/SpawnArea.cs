@@ -6,14 +6,20 @@ public class SpawnArea : MonoBehaviour
 {
 
     public GameObject monster;
+    public LevelManager manager;
 
     [Range(0f, 5f)]
     public float radius=1f;
 
-    public GameObject Spawn() {
+    public void Awake() {
+        if(monster.GetComponent<MonsterManager>() == null) {
+            Debug.LogError("GameObject choose as monster don't have MonsterManager", gameObject);
+        }
+    }
+
+    public void Spawn() {
         if(monster == null) {
             Debug.LogError("No monster set in " + gameObject.name, gameObject);
-            return null;
         }
         Vector3 position = transform.position;
 
@@ -23,7 +29,9 @@ public class SpawnArea : MonoBehaviour
 
         GameObject newMonster = Instantiate(monster, position, Quaternion.identity);
 
-        return newMonster;
+        MonsterManager monsterManager = newMonster.GetComponent<MonsterManager>();
+        manager.AddMonster(monsterManager);
+
     }
 
     public void Spawn(int number) {
