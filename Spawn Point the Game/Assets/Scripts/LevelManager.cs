@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour
     [Range(0, 100)]
     public int monstersNumber = 10;
 
+    public GameManager gameManager;
+
     public List<SpawnArea> spawnAreas;
     public GameObject playerPrefab;
     public Transform playerSpawn;
@@ -18,8 +20,11 @@ public class LevelManager : MonoBehaviour
     public List<MonsterManager> attackingMonsters = new List<MonsterManager>();
 
     public int monstersOnPlayer = 1;
+    public int nextSpawnArea = 0;
 
     private void Awake() {
+        gameManager = FindObjectOfType<GameManager>();
+
         if(playerPrefab == null) {
             Debug.LogError("No player object set in this level.", gameObject);
             return;
@@ -58,6 +63,13 @@ public class LevelManager : MonoBehaviour
     public void WhenMonsterKill(MonsterManager monster) {
         monsters.Remove(monster);
         attackingMonsters.Remove(monster);
+
+        spawnAreas[nextSpawnArea].Spawn();
+        nextSpawnArea++;
+        if(nextSpawnArea >= spawnAreas.Count) {
+            nextSpawnArea = 0;
+        }
+
         Ticketing();
     }
 
