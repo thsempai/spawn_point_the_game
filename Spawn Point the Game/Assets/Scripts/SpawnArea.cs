@@ -26,6 +26,12 @@ public class SpawnArea : MonoBehaviour
         return newMonster;
     }
 
+    public void Spawn(int number) {
+        for(int n=0; n < number; n++) {
+            Spawn();
+        }
+    }
+
     private void OnDrawGizmosSelected() {
         Gizmos.color = new Color(0f, 0f, 1f, 0.25f);
         Gizmos.DrawWireSphere(transform.position, radius);
