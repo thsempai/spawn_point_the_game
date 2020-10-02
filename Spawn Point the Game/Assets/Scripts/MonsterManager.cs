@@ -15,13 +15,34 @@ public class MonsterManager : MonoBehaviour
 
     private NavMeshAgent agent;
 
+    public Material dyingMaterial;
+    private Material originalMaterial;
+
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
+        originalMaterial = GetComponent<Renderer>().material;
+    }
+
+    public void Revive() {
+        GetComponent<Renderer>().material = originalMaterial;
+    }
+
+    IEnumerator _Kill() {
+        yield return new WaitForSeconds(1);
+        manager.WhenMonsterKill(this);
+        if (manager.pool) {
+            manager.pool.Add(gameObject);
+        }
+        else {
+            Destroy(gameObject);
+        }
+        yield return null;
     }
 
     public void Kill() {
-        manager.WhenMonsterKill(this);
-        Destroy(gameObject);
+        GetComponent<Renderer>().material = dyingMaterial;
+        agent.isStopped = true;
+        StartCoroutine(_Kill());
     }
 
     private void Update() {

@@ -27,7 +27,16 @@ public class SpawnArea : MonoBehaviour
         rnd.y = 0;
         position += rnd;
 
-        GameObject newMonster = Instantiate(monster, position, Quaternion.identity);
+        GameObject newMonster = null;
+
+        if (manager.pool) {
+            newMonster = manager.pool.GiveOne(position, Quaternion.identity);
+            if (newMonster)
+                newMonster.GetComponent<MonsterManager>().Revive();
+        }
+
+        if(newMonster == null)
+            newMonster = Instantiate(monster, position, Quaternion.identity);
 
         MonsterManager monsterManager = newMonster.GetComponent<MonsterManager>();
         manager.AddMonster(monsterManager);

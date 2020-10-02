@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
   target: {fileID: 0}
+  dyingMaterial: {fileID: 2100000, guid: d11f9c513205fe9439d1b7f7f785b611, type: 2}
 --- !u!54 &5002834315622729394
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -22,9 +22,14 @@ public class LevelManager : MonoBehaviour
     public int monstersOnPlayer = 1;
     public int nextSpawnArea = 0;
 
+    [HideInInspector]
+    public Pool pool;
+
     private void Awake() {
         gameManager = FindObjectOfType<GameManager>();
         monstersNumber = gameManager.difficulty;
+
+        pool = FindObjectOfType<Pool>();
 
         if(playerPrefab == null) {
             Debug.LogError("No player object set in this level.", gameObject);
